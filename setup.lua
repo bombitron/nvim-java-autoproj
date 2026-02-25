@@ -58,15 +58,10 @@ function M.init()
         if prompted then return end
 
         local found = false
-        local src_needed = false
         if not result or not result.diagnostics then return end
         for _, diagnostic in ipairs(result.diagnostics) do
-          if diagnostic.message:match('non%-project file') then
+          if diagnostic.message:match('non%-project file') or diagnostic.message:match('not on the classpath of project') then
             found = true
-            break
-          elseif diagnostic.message:match('not on the classpath of project') then
-            found = true
-            src_needed = true
             break
           end
         end
@@ -76,6 +71,9 @@ function M.init()
         local bufnr = ctx.bufnr or vim.api.nvim_get_current_buf()
 
         prompted = true
+
+        local filepath = vim.api.nvim_buf_get_name(bufnr)
+        local src_needed = not vim.fs.root(filepath, { 'src' })
 
         vim.schedule(function()
           vim.ui.select(
@@ -93,7 +91,6 @@ function M.init()
               end
 
               if src_needed then
-                local filepath = vim.api.nvim_buf_get_name(bufnr)
                 local src_dir = vim.fs.joinpath(vim.fn.fnamemodify(filepath, ':h'), 'src')
                 vim.fn.mkdir(src_dir, 'p')
                 local new_path = vim.fs.joinpath(src_dir, vim.fn.fnamemodify(filepath, ':t'))

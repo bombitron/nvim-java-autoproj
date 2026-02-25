@@ -4,7 +4,7 @@
 
 2. Clone this repo into the directory of your plugin configuration. (Example for [NvChad](https://github.com/NvChad/NvChad))
 ```sh
-cd ~/.config/nvim/lua/plugins/ && git clone https://github.com/bombitron/nvim-java-autoproj.git
+mkdir -p ~/.config/nvim/lua/plugins/ && cd ~/.config/nvim/lua/plugins/ && git clone https://github.com/bombitron/nvim-java-autoproj.git
 ```
 
 3. Add [nvim-java](https://github.com/nvim-java/nvim-java) to your plugins as you normally would, but instead of just enabling [jdtls](https://github.com/eclipse-jdtls/eclipse.jdt.ls) after calling to its setup, call to the init function of the nvim-java-autoproj module (you may need to modify the require call depending on the directory in which you cloned it):
@@ -22,8 +22,14 @@ vim.pack.add({
   'https://github.com/nvim-java/nvim-java',
 })
 
-require('java').setup()
-require('plugins.nvim-java-autoproj.setup').init()
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "java",
+  once = true,
+  callback = function()
+    require('java').setup()
+    require('plugins.nvim-java-autoproj.setup').init()
+  end,
+}
 ```
 
 ### Using `lazy.nvim`
@@ -32,6 +38,7 @@ Install using [lazy.nvim](https://github.com/folke/lazy.nvim):
 ```lua
 {
   'nvim-java/nvim-java',
+  ft = { 'java' }
   config = function()
     require('java').setup()
     require('plugins.nvim-java-autoproj.setup').init()
