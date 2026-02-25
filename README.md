@@ -4,7 +4,7 @@
 
 2. Clone this repo into the directory of your plugin configuration. (Example for [NvChad](https://github.com/NvChad/NvChad))
 ```sh
-   git clone https://github.com/bombitron/nvim-java-autoproj.git ~/.config/nvim/lua/plugins/
+cd ~/.config/nvim/lua/plugins/ && git clone https://github.com/bombitron/nvim-java-autoproj.git
 ```
 
 3. Add [nvim-java](https://github.com/nvim-java/nvim-java) to your plugins as you normally would, but instead of just enabling [jdtls](https://github.com/eclipse-jdtls/eclipse.jdt.ls) after calling to its setup, call to the init function of the nvim-java-autoproj module (you may need to modify the require call depending on the directory in which you cloned it):
