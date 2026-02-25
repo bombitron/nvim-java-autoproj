@@ -56,7 +56,7 @@ For that, if allowed, it will generate the .project and .classpath XMLs needed b
 
 ## Why?
 
-When working with a non-indexed java project, imports of local classes and package declarations do not work, and this module aims to make that work in small projects where gradle, maven or git are unnecessary.
+When working with a non-indexed java project, imports of classes you make and package declarations do not work, and this module aims to make that work in small projects where gradle, maven or git are unnecessary.
 
 ## Thanks
 
